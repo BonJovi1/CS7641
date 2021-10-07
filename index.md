@@ -34,6 +34,25 @@ Given a labelled dataset of tweets collected from Twitter during the ongoing pan
 #### Potential results and Discussion: 
 We hope to efficiently implement our ML models which would be able to correctly identify anti-vaccination tweets with high accuracy and precision. Subsequently, we would like to compare the performance of our model with other existing ML and DL methods (cite here) and evaluate where our model stands. 
 
+#### Citations
+1. Citation 1
+2. Citation2
+3. Citation3
+4. Citation4
+
+#### Proposed Project Timeline
+
+| Week                      | Milestone we hope to accomplish                          | Primary Responsibilities |
+| ------------------------- | -------------------------------------------------------- | -------------------------|
+| Week 7: Oct 1 to Oct 8    | Brainstorm on ideas and write the Project Proposal       | Everyone!                |
+| Week 8: Oct 9 to Oct 15   | Dataset Preparation for both tasks                       | Sean and Abhinav
+| Week 9: Oct 16 to Oct 22  | Analysing supervised and unsupervised methods and data preprocessing | Trey and Shashank 
+| Week 10: Oct 23 to Oct 29 | Implementing PCA (unsupervised) and vectorizing/lemmatization (supervised) | McKay and Sean
+| Week 11: Oct 30 to Nov 05 | Implement the ML models - KMeans for unsupervised and Naive Bayes for supervised and obtain results | Abhinav and Trey
+| Week 12: Nov 06 to Nov 12 | Implement the ML models - DBSCAN for unsupervised and SVM for supervised and obtain results | McKay and Shashank
+| Week 13: Nov 13 to Nov 19 | Analyse all results using performance and evaluation metrics | Abhinav and Sean
+| Week 14: Nov 20 to Nov 26 | Further testing and feedback. Attempting to improve model accuracies. Implementing the RNN for the supervised taks (if time permits). | Trey, McKay and Shashank
+| Week 15: Nov 27 to Dec 03 | Work on the Final Presentation! | Everyone!
 
 
 
