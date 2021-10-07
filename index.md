@@ -1,8 +1,8 @@
-## CS7641 Project
+# Machine Learning for Healthcare
 
-### Check out our Proposal Video
+### Check out our [Proposal Video]()! 
 
-## Proposal 
+## Project Proposal 
 
 ### Unsupervised Machine Learning to Investigate Cardiovascular Disease
 
