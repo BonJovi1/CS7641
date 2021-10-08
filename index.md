@@ -45,7 +45,7 @@ The performance metrics for each model will be presented and compared with previ
 #### Proposed Project Timeline
 
 <p align="center">
-  <img src="timeline.jpg" width="960">
+  <img src="timeline.jpg" width="720">
 </p>
 
 | Week                      | Milestone we hope to accomplish                          | Primary Responsibilities |
