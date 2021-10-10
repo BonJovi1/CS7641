@@ -1,6 +1,6 @@
 # Machine Learning for Healthcare
 
-### Check out our [Proposal Video](https://www.youtube.com/watch?v=1uvxKJif0uA)! 
+### Check out our [Proposal Video](https://www.youtube.com/watch?v=RcSERS1OwWU)! 
 
 ## Project Proposal 
 
