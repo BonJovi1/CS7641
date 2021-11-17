@@ -243,7 +243,7 @@ The word vectors are huge (96 dimensions) which is usually the case with all sor
 <p align="center">
   <img src="figs/wordvecs.png" width="720">
   <br>
-  <em> Figure 10: Visualizing the word vectors for some frequently occurring words in a dataset. These have been plotted along two dimensions. The closeness of words indicates the similarity of their vector representations. 
+  <em> Figure 10: Visualizing the word vectors for some frequently occurring words in a dataset. These have been plotted along two dimensions. The closeness of words indicates the similarity of their vector representations. </em>
 </p>
 
 ##### Supervised Method for Classification
