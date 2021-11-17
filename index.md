@@ -20,6 +20,7 @@ The published dataset is a subset of the original dataset, which contains fourte
 
 <p align="center">
   <img src="figs/cleveland_head.png" width="720">
+  <br>
   <em>Figure 1: Cleveland Dataset Sample</em>
 </p>
 
@@ -30,7 +31,8 @@ The published dataset is a subset of the original dataset, which contains fourte
 Data cleaning involves taking the raw data files and loading them into data frames, then applying categorical labels where appropriate. We then remove categorical features, as we are currently interested in applying clustering methods to numerical data. We measure the frequency of missing data for each feature, and eliminate those that are missing values for over 20% of the data. Most features have over 90% valid data points whereas a few have less than 50%. In the interest of balancing the number of features with the amount of eliminated data points, the threshold frequency of valid data points is set at 80%. We then eliminate rows which are missing features. This process is used to maximize the number of valid data points available. We then standardize our data as a final preprocessing step. A sample of this processed data is pictured in Figure 2.
 
 <p align="center">
-  <img src="figs/standardized_head.png" width="720" alt>
+  <img src="figs/standardized_head.png" width="720">
+  <br>
   <em>Figure 2: Cleaned and Standardized Dataset Sample</em>
 </p>
 
@@ -63,6 +65,7 @@ Figure 3b (right) shows the data points after transformation by t-SNE.
 
 <p align="center">
   <img src="figs/scatterplots.png" width="720">
+  <br>
   <em>Figure 3: Scatter plots of Principal Components and t-SNE Dimensions</em>
 </p>
 
@@ -77,6 +80,7 @@ We apply K-means clustering to both the PCA and t-SNE points. By plotting the Wi
 
 <p align="center">
   <img src="figs/elbow_kmeans.png" width="720">
+  <br>
   <em>Figure 4: Elbow Plots for K-means: PCA (left), t-SNE (right)</em>
 </p>
 
@@ -85,6 +89,7 @@ For both PCA and t-SNE, the ideal number of clusters is found to be K=5. The for
 
 <p align="center">
   <img src="figs/clusters_kmeans.png" width="720">
+  <br>
   <em>Figure 5: Plots for K-means: PCA (left), t-SNE (right)</em>
 </p>
 
@@ -94,6 +99,7 @@ We then apply DBSCAN to both PCA and t-SNE. By plotting the epsilon value agains
 
 <p align="center">
   <img src="figs/elbow_dbscan.png" width="720">
+  <br>
   <em>Figure 6: Elbow Plots for DBSCAN: PCA (left), t-SNE (right)</em>
 </p>
 
@@ -101,6 +107,7 @@ For PCA, we find the ideal epsilon value to be .45. For t-SNE, we find the ideal
 
 <p align="center">
   <img src="figs/clusters_dbscan.png" width="720">
+  <br>
   <em>Figure 7: Plots for DBSCAN: PCA (left), t-SNE (right)</em>
 </p>
 
