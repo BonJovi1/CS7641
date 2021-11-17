@@ -38,7 +38,7 @@ Before the final report, we plan to use interpolation methods to reduce the amou
 
 
 #### Methods
-Unsupervised machine learning techniques offer a solution for organizing patients into sub-populations based on their medical history. A previous study has proven clustering algorithms to be successful in identifying clinical sub-populations of Alzheimer’s disease patients [2]. A similar exploratory method will be applied to study patients with cardiovascular disease. Principal Component Analysis (PCA) and T-Stochastic Neighbor Embedding (t-SNE) will be applied to produce independent dimensionally-reduced versions of the original dataset. K-means and DBSCAN clustering algorithms will then be separably applied to the original dataset and the reduced dimensionality versions of the dataset. The analysis which produces the most separable clusters will be selected for further statistical analysis to determine the characterizing features of each cluster.
+Unsupervised machine learning techniques offer a solution for organizing patients into sub-populations based on their medical history. A previous study has proven clustering algorithms to be successful in identifying clinical sub-populations of Alzheimer’s disease patients [2]. A similar exploratory method will be applied to study patients with cardiovascular disease. Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (t-SNE) will be applied to produce independent dimensionally-reduced versions of the original dataset. K-means and DBSCAN clustering algorithms will then be separably applied to the original dataset and the reduced dimensionality versions of the dataset. The analysis which produces the most separable clusters will be selected for further statistical analysis to determine the characterizing features of each cluster.
 
 ##### Dimensionality Reduction
 
@@ -48,7 +48,8 @@ We use dimensionality reduction for two reasons:
 
 We independently use two methods of dimensionality reduction: **PCA** and **t-SNE**
 
-**PCA**
+###### PCA
+
 We utilize Principal Component Analysis (PCA) to reduce our data to two dimensions, corresponding with our first two principal components. PCA finds an orthogonal basis for the datasets, with the spanning vectors in order of the directions of most variance. 
 
 We choose this method since after normalizing each parameter (eg. subtracting the mean and dividing by the standard deviation), features in the heart disease dataset with high variance are hypothesized to have high meaning (age, cholesterol).
@@ -56,8 +57,9 @@ We choose this method since after normalizing each parameter (eg. subtracting th
 Figure 3a (left) shows the two selected components. Both have quite high variance, and principal component 1 has slightly more variance than component 2. This similarity could suggest that more than 2 components will be useful.
 
 
-**t-SNE**
-We utilize T-Distributed Stochastic Neighbor Embedding (t-SNE) to reduce the data into two dimensions. We choose to use TSNE due to the fact that it uses a normal distribution to retain the variance exhibited by points in higher dimensions when they are projected into lower dimensions. We choose this method for similar reasons to our choice of PCA, to reduce our dimensionality while obtaining a useful representation of trends in our data.
+###### t-SNE
+
+We utilize T-Distributed Stochastic Neighbor Embedding (t-SNE) to reduce the data into two dimensions. We choose to use t-SNE due to the fact that it uses a normal distribution to retain the variance exhibited by points in higher dimensions when they are projected into lower dimensions. We choose this method for similar reasons to our choice of PCA, to reduce our dimensionality while obtaining a useful representation of trends in our data.
 
 Figure 3b (right) shows the data points after transformation by t-SNE.
 
@@ -68,11 +70,11 @@ Figure 3b (right) shows the data points after transformation by t-SNE.
 </p>
 
 
-## Unsupervised Learning
+##### Unsupervised Learning
 
 We independently use two clustering methods on the two dimension-reduced data sets: K-means and DBSCAN.
 
-## K-means
+###### K-means
 
 We apply K-means clustering to both the PCA and t-SNE points. By plotting the Within-Cluster Sum of Square (WCSS) against the number of clusters, we obtain the following results in Figure 4a (left). 
 
@@ -91,7 +93,7 @@ For both PCA and t-SNE, the ideal number of clusters is found to be K=5. The for
   <em>Figure 5: Plots for K-means: PCA (left), t-SNE (right)</em>
 </p>
 
-## DBSCAN
+###### DBSCAN
 
 We then apply DBSCAN to both PCA and t-SNE. By plotting the epsilon value against the average distance between points and their 4 nearest neighbors and applying the elbow method, we obtain the ideal epsilon values for each. Experimentation with various values within the range of the ‘elbow’ allows for tuning the results. 
 
@@ -113,31 +115,22 @@ For PCA, we find the ideal epsilon value to be .45. For t-SNE, we find the ideal
 The discovered clinical sub-populations will be presented along with their characterizing features. A review of medical literature will be conducted to contextualize these results with previous findings concerning cardiac disease.
 
 To evaluate the quality of our clustering methods, we use the **Silhouette Coefficient**. The Silhouette Coefficient is a value from -1 to 1, where 1 represents tightly packed clusters far apart and -1 represents random data with random labels. Typically, clustering results with negative numbers are considered largely meaningless.
-### Our three cluster results have the following Silhouette Coefficients (S):
 
-K-means on PCA for K = 5
-S = 0.377
+##### Our three cluster results have the following Silhouette Coefficients (S):
 
-K-means on  t-SNE for K = 5
-S = 0.574
+K-means on PCA for K = 5: S = 0.377
 
-DBSCAN on PCA with Eps 0.45, minPoints = 4
-S = 0.114
+K-means on  t-SNE for K = 5: S = 0.574
 
-DBSCAN on  t-SNE with Eps 2.5, minPoints = 4
-S = 0.342
+DBSCAN on PCA with Eps 0.45, minPoints = 4: S = 0.114
+
+DBSCAN on  t-SNE with Eps 2.5, minPoints = 4: S = 0.342
 
 These results show that K-means, despite its rudimentary approach, achieves the quantifiably best clusters when paired with  t-SNE dimensionality reduction. It should be noted, however, that after using t-SNE, the distance between well-separated clusters is not very meaningful. Therefore, Silhouette Coefficient on t-SNE results must be taken with a grain of salt, since this metric is quite sensitive to cluster separation distance. Qualitatively, the figures above show that the two clustering methods with high Silhouette Coefficients do appear to have the best clustering.
 
 In the next phase of our project, we will assess the quality of our clusters using the features themselves. If our goal is to make meaningful groups of heart disease patients, how meaningful are the clusters?
 
 We’ll answer this question by looking at the distributions of the original features within each cluster. We aim to contextualize each cluster with existing conditions in order to see if the cluster detects an existing type of patient or suggests a novel type of heart condition.
-
-
-- Explain the data cleaning process
-- Data Preprocessing - PCA and feature selection
-- Supervised/unsupervised method used - KMeans/DBScan 
-- Analysis using metrics
 
 
 ### Supervised Machine Learning to Detect and Classify Anti-Vaccine Tweets 
