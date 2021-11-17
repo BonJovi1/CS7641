@@ -30,7 +30,7 @@ The published dataset is a subset of the original dataset, which contains fourte
 Data cleaning involves taking the raw data files and loading them into data frames, then applying categorical labels where appropriate. We then remove categorical features, as we are currently interested in applying clustering methods to numerical data. We measure the frequency of missing data for each feature, and eliminate those that are missing values for over 20% of the data. Most features have over 90% valid data points whereas a few have less than 50%. In the interest of balancing the number of features with the amount of eliminated data points, the threshold frequency of valid data points is set at 80%. We then eliminate rows which are missing features. This process is used to maximize the number of valid data points available. We then standardize our data as a final preprocessing step. A sample of this processed data is pictured in Figure 2.
 
 <p align="center">
-  <img src="figs/standardized_head.png" width="720">
+  <img src="figs/standardized_head.png" width="720" alt>
   <em>Figure 2: Cleaned and Standardized Dataset Sample</em>
 </p>
 
