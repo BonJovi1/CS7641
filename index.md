@@ -253,7 +253,7 @@ After successfully cleaning and preprocessing the data, we use **logistic regres
 We plot the confusion matrix for our logistic regression model's predictions. We can see that only 3 labels for non anti-vax tweets that are incorrectly classified. However, there are 23 anti-vax tweets which are being incorrectly classified. This brings down the accuracy a bit and is mostly due to a small size of our annotated dataset. There are currently only 26 anti-vax tweets in the test split. We shall diligently work on improving this further with better preprocessing and annotating more tweets in our dataset. 
 
 <p align="center">
-  <img src="figs/confusion.png" width="720">
+  <img src="figs/confusion.png" width="480">
   <br>
   <em> Figure 11: The Confusion Matrix obtained after testing the logistic regression model on the test dataset. </em>
 </p>
