@@ -151,39 +151,46 @@ Autonomously detecting tweets with anti-vaccine content can help authorities eff
 #### Data Collection
 We use the publicly available Avax Tweets Dataset [4] which contains around 4 million tweets scraped from Twitter. These tweets were scraped based on particular keywords related to anti-vaccination and vaccine hesitancy. Apart from the text of the tweet, the data also consists of supplemental information such as number of hashtags, the number of mentions etc. There are over 20 fields for each tweet. We downloaded this dataset and wrote a simple script to extract all the `json` files from each compressed file and choose 6 meaningful features manually which will help us in classification, while discarding the rest. We further preprocess this data, as explained in the Results section. 
 
-
+<p align="center">
+  <img src="figs/dataset_before.png" width="720">
+  <br>
+  <em>Figure 8: The Avax Tweets Dataset, after shortlisting 6 meaningful features and before any preprocessing </em>
+</p>
 
 #### Methods:
-Previous work has proven that supervised machine learning methods are a viable solution for detecting anti-vaccine tweets [3]. Similar methods will be utilized to train a classifier to detect anti-vaccine tweets based upon the Avax Tweet dataset [4]. Normalization techniques including transforming text to lowercase, removing unneeded characters, and lemmatization will be applied to prepare the dataset for processing. The preprocessed data will be partitioned into separate datasets for training and testing purposes. A Support Vector Machine model and a Naive Bayes model will be independently tested as the classifier for the project. The performance of each classifier will be analyzed by considering metrics such as F1 scores.
+Previous work has proven that supervised machine learning methods are a viable solution for detecting anti-vaccine tweets [3]. Similar methods will be utilized to train a classifier to detect anti-vaccine tweets based upon the Avax Tweet dataset [4]. Normalization techniques including transforming text to lowercase, removing unneeded characters, and lemmatization will be applied to prepare the dataset for processing. The preprocessed data will be partitioned into separate datasets for training and testing purposes. A Logistic Regression model, a Support Vector Machine model and a Naive Bayes model will be independently tested as the classifiers for the project. The performance of each classifier will be analyzed by considering metrics such as F1 scores.
 
 #### Results and Discussion: 
 The performance metrics for each model will be presented and compared with previous studies [3] to determine the efficacy of each model.
 
-##### Data Cleaning and Preprocessing
+#### Data Cleaning and Preprocessing
 Our final goal is to train a Machine Learning classifier on our tweets. In order to do this, we need to convert the text of all tweets to robust vector representations, which will be fed as input to our ML models. Hence, it is essential to clean the text of our data before we convert the sentences into vectors. Tweets can be really messy; for instance, one of the tweets in our dataset is: 
 
 ```
 @Oktoba1 @shapulem @Bongagatshen Oh shit*t I saw it and have always known about Bill Gates depopulation. That man is nuts
 ```
 
-We can see this text is extremely messy with various user mentions, hashtags and lots of stopwords (I, it, is etc.). We wish to extract words from this tweet that actually contain information about the tweet and discard the rest. We carry out a systematic and an efficient data cleaning and preprocessing pipeline as explained below: 
+We can see this text is extremely messy with various user mentions, hashtags and lots of stopwords (I, it, is etc.). We wish to extract words from this tweet that actually contain information about the tweet and discard the rest. We carry out a systematic and an efficient data cleaning and preprocessing pipeline as explained below. 
 
-- All the data is first converted to lower case.
-- All punctuation marks are removed from the text, which is why we don't notice any commas or full stops in the processed text. 
-- The stop words are removed from the text. 
-- We then convert numbers to their corresponding textual form, like "one" to "1". 
-- Removing User Mentions from the tweets. 
-- Performing word segmentation of the hashtags, for instance, #KillBillGates converts to `['kill', 'bill', 'gates']`
-- Elimination of webpage URL's from the text, such as `https://tinyurl/45hfhejwn5`
+- **Deletion of User Mentions** from the tweets. 
+- Performing **word segmentation of the hashtags**, for instance, #KillBillGates converts to `['kill', 'bill', 'gates']`
+- **Elimination of webpage URL's** from the text, such as `https://tinyurl/45hfhejwn5`
+- **Stemming of each individual word**, that is converting the word to its base/root form. ('depopulation' to 'depopul')
+- **Removal of stopwords** (frequently occurring words like "is", "a" etc that don't contain any significant information about the text)
+
+Other minor preprocessing techniques that we apply are: 
+- Conversion of text to lowercase
+- Removal of all punctuation marks such as commas and full stops. 
+- Coversion of numbers to their corresponding textual form, like "1" to "one". 
 
 After processing, the tweet above is converted into the following form: 
 
 ```
 'oh shit saw alway known bill gate depopul man', 'nut'
 ```
-And voila! We have our tweet cleaned up, devoid of any unnecessary hashtags and user mentions and consisting of words that are actually representative of the information the tweet wishes to convey. Now that our data has been cleaned, we have one more step left in the preprocessing - generating the vector representations. 
+And voila! We have our tweet cleaned up which is now devoid of any unnecessary hashtags and user mentions. It purely  consisting of words that are actually representative of the information the tweet wishes to convey. Now that our data has been cleaned, we have one more step left in the preprocessing - generating the vector representations for the tweets. 
 
-For converting our preprocessed tweets to vectors, we use the popular `Word2Vec` model and generate a 96 dimensional vector for each word in the tweet. For this purpose, we convert each sentence into ints constituent words. For our example above, we obtain the following `list_of_words`. 
+For converting our preprocessed tweets to vectors, we use the popular `Word2Vec` model and generate a 96 dimensional vector for each word in the tweet. For this purpose, we convert each sentence into its constituent words. For our example above, we obtain the following `list_of_words`. 
 
 ```
 ['oh',
@@ -223,18 +230,20 @@ array([ 5.37666000e-04,  5.18207796e-04, -1.12039914e-04,  1.05319139e-03,
        -8.27332081e-05, -4.15258794e-04, -1.43937394e-03,  5.20161183e-04,
         6.71408542e-04,  1.23154560e-05,  5.22322713e-04, -6.71783066e-04,
        -4.87862376e-04,  4.53212174e-04,  5.04155482e-04,  9.52582094e-04])
-```
-
-Visualizing our dataset post cleaning and preprocessing. 
+``` 
 
 <p align="center">
   <img src="figs/dataset.png" width="720">
+  <br>
+  <em> Figure 9: Visualizing the Avax Tweets dataset post Cleaning and Preprocessing. </em>
 </p>
 
-Here is a visualization of the word vectors generated for some frequently occurring words in a dataset, plotted along two dimensions using `Word2vec`. The closeness of words indicates the similarity of their vector representations. 
+The word vectors are huge (96 dimensions) which is usually the case with all sorts of textual data. In order to better visualize our generated vectors, we perform tSNE to reduce them to a dimensionality of two. We then plot these vectors to better comprehend our data. 
 
 <p align="center">
   <img src="figs/wordvecs.png" width="720">
+  <br>
+  <em> Figure 10: Visualizing the word vectors for some frequently occurring words in a dataset. These have been plotted along two dimensions. The closeness of words indicates the similarity of their vector representations. 
 </p>
 
 ##### Supervised Method for Classification
@@ -245,12 +254,16 @@ We plot the confusion matrix for our logistic regression model's predictions. We
 
 <p align="center">
   <img src="figs/confusion.png" width="720">
+  <br>
+  <em> Figure 11: The Confusion Matrix obtained after testing the logistic regression model on the test dataset. </em>
 </p>
 
-Our model classifies anti-vax tweets with an accuracy of **81.42%**. We also use many other other metrics such as precision, recall and F1-score using the `sklearn` metrics and report these results. 
+Our model classifies anti-vax tweets with **an accuracy of 81.42%**. We also use many other other metrics such as precision, recall and F1-score using the `sklearn` metrics and report these results. 
 
 <p align="center">
   <img src="figs/metrics.png" width="720">
+  <br> 
+  <em> Figure 12: Various metrics applied to analyze the performance of the classifier. </em>
 </p>
 
 #### Citations
