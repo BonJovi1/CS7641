@@ -20,6 +20,11 @@ Unsupervised machine learning techniques offer a solution for organizing patient
 #### Results and Discussion
 The discovered clinical sub-populations will be presented along with their characterizing features. A review of medical literature will be conducted to contextualize these results with previous findings concerning cardiac disease.
 
+- Explain the data cleaning process
+- Data Preprocessing - PCA and feature selection
+- Supervised/unsupervised method used - KMeans/DBScan 
+- Analysis using metrics
+
 ### Supervised Machine Learning to Detect and Classify Anti-Vaccine Tweets 
 
 #### Introduction/Background
@@ -35,6 +40,11 @@ Previous work has proven that supervised machine learning methods are a viable s
 
 #### Results and Discussion: 
 The performance metrics for each model will be presented and compared with previous studies [3] to determine the efficacy of each model.
+
+- Explain the data cleaning process
+- Data Preprocessing - PCA and feature selection
+- Supervised/unsupervised method used - KMeans/DBScan 
+- Analysis using metrics
 
 #### Citations
 [1] Tran, D.-M. T., Lekhak, N., Gutierrez, K., & Moonie, S. (2021). Risk Factors Associated with Cardiovascular Disease Among Adult Nevadans. *PLOS ONE, 16*(2). https://doi.org/10.1371/journal.pone.0247105 
