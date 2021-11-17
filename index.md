@@ -194,6 +194,12 @@ array([ 5.37666000e-04,  5.18207796e-04, -1.12039914e-04,  1.05319139e-03,
        -4.87862376e-04,  4.53212174e-04,  5.04155482e-04,  9.52582094e-04])
 ```
 
+Here is a visualization of the word vectors generated for some frequently occurring words in a dataset, plotted along two dimensions using `Word2vec`. The closeness of words indicates the similarity of their vector representations. 
+
+<p align="center">
+  <img src="figs/wordvecs.png" width="720">
+</p>
+
 - Supervised/unsupervised method used - KMeans/DBScan 
 - Analysis using metrics
 
