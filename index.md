@@ -25,6 +25,19 @@ The discovered clinical sub-populations will be presented along with their chara
 - Supervised/unsupervised method used - KMeans/DBScan 
 - Analysis using metrics
 
+<p align="center">
+  <img src="figs/elbow_kmeans.png" width="720">
+</p>
+<p align="center">
+  <img src="figs/clusters_kmeans.png" width="720">
+</p>
+<p align="center">
+  <img src="figs/elbow_dbscan.png" width="720">
+</p>
+<p align="center">
+  <img src="figs/clusters_dbscan.png" width="720">
+</p>
+
 ### Supervised Machine Learning to Detect and Classify Anti-Vaccine Tweets 
 
 #### Introduction/Background
