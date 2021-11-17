@@ -24,8 +24,6 @@ The published dataset is a subset of the original dataset, which contains fourte
   <em>Figure 1: Cleveland Dataset Sample</em>
 </p>
 
-
-
 ##### Data Cleaning
 
 Data cleaning involves taking the raw data files and loading them into data frames, then applying categorical labels where appropriate. We then remove categorical features, as we are currently interested in applying clustering methods to numerical data. We measure the frequency of missing data for each feature, and eliminate those that are missing values for over 20% of the data. Most features have over 90% valid data points whereas a few have less than 50%. In the interest of balancing the number of features with the amount of eliminated data points, the threshold frequency of valid data points is set at 80%. We then eliminate rows which are missing features. This process is used to maximize the number of valid data points available. We then standardize our data as a final preprocessing step. A sample of this processed data is pictured in Figure 2.
@@ -225,14 +223,33 @@ array([ 5.37666000e-04,  5.18207796e-04, -1.12039914e-04,  1.05319139e-03,
        -4.87862376e-04,  4.53212174e-04,  5.04155482e-04,  9.52582094e-04])
 ```
 
+Visualizing our dataset post cleaning and preprocessing. 
+
+<p align="center">
+  <img src="figs/dataset.png" width="720">
+</p>
+
 Here is a visualization of the word vectors generated for some frequently occurring words in a dataset, plotted along two dimensions using `Word2vec`. The closeness of words indicates the similarity of their vector representations. 
 
 <p align="center">
   <img src="figs/wordvecs.png" width="720">
 </p>
 
-- Supervised/unsupervised method used - KMeans/DBScan 
-- Analysis using metrics
+##### Supervised Method for Classification
+After successfully cleaning and preprocessing the data, we use **logistic regression** as our first supervised machine learning model. From our dataset, we manually annotate 700 tweets and create a 80-20 train-test split. We train our model on the train set with default parameters. We then use our trained model to predict anti-vax labels for the test dataset and perform an analysis on the robustness of our model's predictions. 
+
+##### Analysis using Metrics
+We plot the confusion matrix for our logistic regression model's predictions. We can see that only 3 labels for non anti-vax tweets that are incorrectly classified. However, there are 23 anti-vax tweets which are being incorrectly classified. This brings down the accuracy a bit and is mostly due to a small size of our annotated dataset. There are currently only 26 anti-vax tweets in the test split. We shall diligently work on improving this further with better preprocessing and annotating more tweets in our dataset. 
+
+<p align="center">
+  <img src="figs/confusion.png" width="720">
+</p>
+
+Our model classifies anti-vax tweets with an accuracy of **81.42%**. We also use many other other metrics such as precision, recall and F1-score using the `sklearn` metrics and report these results. 
+
+<p align="center">
+  <img src="figs/metrics.png" width="720">
+</p>
 
 #### Citations
 [1] Tran, D.-M. T., Lekhak, N., Gutierrez, K., & Moonie, S. (2021). Risk Factors Associated with Cardiovascular Disease Among Adult Nevadans. *PLOS ONE, 16*(2). https://doi.org/10.1371/journal.pone.0247105 
