@@ -24,7 +24,12 @@ The discovered clinical sub-populations will be presented along with their chara
 - Data Preprocessing - PCA and feature selection
 - Supervised/unsupervised method used - KMeans/DBScan 
 - Analysis using metrics
-
+<p align="center">
+  <img src="figs/cleveland_head.png" width="720">
+</p>
+<p align="center">
+  <img src="figs/standardized_head.png" width="720">
+</p>
 <p align="center">
   <img src="figs/elbow_kmeans.png" width="720">
 </p>
