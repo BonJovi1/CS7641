@@ -2,7 +2,7 @@
 
 ### Check out our [Proposal Video](https://www.youtube.com/watch?v=RcSERS1OwWU)! 
 
-## Project Proposal 
+## Project Midterm Report
 
 ### Unsupervised Machine Learning to Investigate Cardiovascular Disease
 
@@ -14,17 +14,27 @@ Identifying specific clinical sub-populations of patients with cardiovascular di
 
 #### Data Collection
 ##### About the Dataset
-We conducted the following analysis using the Heart Disease Dataset made publicly available through the University of California, Irvine’s Machine Learning Repository [5]. It includes data collected from patients treated by the Hungarian Institute of Cardiology, the University Hospitals in Zurich and Basel, Switzerland, the Long Beach Veterans Affairs Medical Center, and the Cleveland Clinic Foundation. 
+We conducted the following analysis using the Heart Disease Dataset [5] made publicly available through the University of California, Irvine’s Machine Learning Repository [6]. It includes data collected from patients treated by the Hungarian Institute of Cardiology, the University Hospitals in Zurich and Basel, Switzerland, the Long Beach Veterans Affairs Medical Center, and the Cleveland Clinic Foundation. 
 
-The published dataset is a subset of the original dataset, which contains fourteen features related to the patients’ sociodemographics and cardiovascular health. The published dataset was processed to account for any missing or corrupted data and anonymizes the records.
+The published dataset is a subset of the original dataset, which contains fourteen features related to the patients’ sociodemographics and cardiovascular health. The published dataset was processed to account for any missing or corrupted data and anonymizes the records. Figure 1 provides a sample from this dataset.
+
+<p align="center">
+  <img src="figs/cleveland_head.png" width="720">
+  <em>Figure 1: Cleveland Dataset Sample</em>
+</p>
+
 
 
 ##### Data Cleaning
 
-Data cleaning involved taking the raw data files and loading them into data frames, then applying categorical labels where appropriate. We then remove categorical features, as we are currently interested in applying clustering methods to numerical data. We measure the frequency of missing data for each feature, and eliminate those that are missing greater than 20% of the data. This was based on analyzing the frequencies. Most features had over 90% valid data whereas a few had less than 50%. In the interest of balancing the number of features with the amount of eliminated rows, 80% was chosen. We also  eliminate rows which are missing features. This process is done to maximize the number of valid data points available. 
+Data cleaning involves taking the raw data files and loading them into data frames, then applying categorical labels where appropriate. We then remove categorical features, as we are currently interested in applying clustering methods to numerical data. We measure the frequency of missing data for each feature, and eliminate those that are missing values for over 20% of the data. Most features have over 90% valid data points whereas a few have less than 50%. In the interest of balancing the number of features with the amount of eliminated data points, the threshold frequency of valid data points is set at 80%. We then eliminate rows which are missing features. This process is used to maximize the number of valid data points available. We then standardize our data as a final preprocessing step. A sample of this processed data is pictured in Figure 2.
 
-Before the final report, we plan to use interpolation methods to reduce the amount of eliminated data.
+<p align="center">
+  <img src="figs/standardized_head.png" width="720">
+  <em>Figure 2: Cleaned and Standardized Dataset Sample</em>
+</p>
 
+Before the final report, we plan to use interpolation methods to reduce the amount of eliminated data points.
 
 
 #### Methods
@@ -33,55 +43,86 @@ Unsupervised machine learning techniques offer a solution for organizing patient
 ##### Dimensionality Reduction
 
 We use dimensionality reduction for two reasons:
-Visualize the features
-Simplify our conclusions
+1. Visualizing the features
+2. Simplifying our conclusions
 
 We independently use two methods of dimensionality reduction: **PCA** and **t-SNE**
 
 **PCA**
 We utilize Principal Component Analysis (PCA) to reduce our data to two dimensions, corresponding with our first two principal components. PCA finds an orthogonal basis for the datasets, with the spanning vectors in order of the directions of most variance. 
 
-We chose this method since after normalizing each parameter (eg. subtracting the mean and dividing by the standard deviation), features in heart disease dataset with high variance are hypothesized to have high meaning (age, cholesterol).
+We choose this method since after normalizing each parameter (eg. subtracting the mean and dividing by the standard deviation), features in the heart disease dataset with high variance are hypothesized to have high meaning (age, cholesterol).
 
-Figure XXX below shows the two components selected. Both have quite high variance, and principal component 1 has slightly more variance than component 2. This similarity could suggest that more than 2 components will be useful.
+Figure 3a (left) shows the two selected components. Both have quite high variance, and principal component 1 has slightly more variance than component 2. This similarity could suggest that more than 2 components will be useful.
+
 
 **t-SNE**
-We utilize t-distributed stochastic neighbor embedding to reduce the data into two dimensions.
+We utilize T-Distributed Stochastic Neighbor Embedding (t-SNE) to reduce the data into two dimensions. We choose to use TSNE due to the fact that it uses a normal distribution to retain the variance exhibited by points in higher dimensions when they are projected into lower dimensions. We choose this method for similar reasons to our choice of PCA, to reduce our dimensionality while obtaining a useful representation of trends in our data.
+
+Figure 3b (right) shows the data points after transformation by t-SNE.
+
+<p align="center">
+  <img src="figs/scatterplots.png" width="720">
+  <em>Figure 3: Scatter plots of Principal Components and t-SNE Dimensions</em>
+</p>
+
 
 ## Unsupervised Learning
 
 We independently use two clustering methods on the two dimension-reduced data sets: K-means and DBSCAN.
+
 ## K-means
 
-We then apply K-means clustering to both the PCA, t-SNE, and non-reduced points. By plotting the Within-Cluster Sum of Square (WCSS) against the number of clusters, we obtain the following results. 
+We apply K-means clustering to both the PCA and t-SNE points. By plotting the Within-Cluster Sum of Square (WCSS) against the number of clusters, we obtain the following results in Figure 4a (left). 
+
+<p align="center">
+  <img src="figs/elbow_kmeans.png" width="720">
+  <em>Figure 4: Elbow Plots for K-means: PCA (left), t-SNE (right)</em>
+</p>
+
 Using the elbow method (i.e. selecting the point on the curve where the slope changes from greater than 1 to less than 1, or vise versa), we find the most effective number of clusters for each set of points.
+For both PCA and t-SNE, the ideal number of clusters is found to be K=5. The formed clusters can be found in Figure 5.
 
-For t-SNE, the ideal number of clusters is K=5. For PCA, the ideal number of clusters is also K=5.
+<p align="center">
+  <img src="figs/clusters_kmeans.png" width="720">
+  <em>Figure 5: Plots for K-means: PCA (left), t-SNE (right)</em>
+</p>
 
-We then apply DBSCAN to both PCA, t-SNE, and non-reduced points. By plotting the epsilon value against the average distance between points and their 4 nearest neighbors, we obtain the ideal epsilon values for each.
+## DBSCAN
 
-For PCA, we find the ideal epsilon value to be around… [need to recompute]
+We then apply DBSCAN to both PCA and t-SNE. By plotting the epsilon value against the average distance between points and their 4 nearest neighbors and applying the elbow method, we obtain the ideal epsilon values for each. Experimentation with various values within the range of the ‘elbow’ allows for tuning the results. 
 
-For t-SNE, we find the ideal epsilon value to be around…
+<p align="center">
+  <img src="figs/elbow_dbscan.png" width="720">
+  <em>Figure 6: Elbow Plots for DBSCAN: PCA (left), t-SNE (right)</em>
+</p>
 
+For PCA, we find the ideal epsilon value to be .45. For t-SNE, we find the ideal epsilon value to be 2.5. The formed clusters can be seen in Figure 7.
+
+<p align="center">
+  <img src="figs/clusters_dbscan.png" width="720">
+  <em>Figure 7: Plots for DBSCAN: PCA (left), t-SNE (right)</em>
+</p>
 
 #### Results and Discussion
 The discovered clinical sub-populations will be presented along with their characterizing features. A review of medical literature will be conducted to contextualize these results with previous findings concerning cardiac disease.
 
-To evaluate the quality of our clustering methods, we use **Silhouette Coefficient**. The Silhouette Coefficient is a value from -1 to 1, where 1 represents tightly packed clusters far apart and -1 represents random data with random labels. Typically, clustering results with negative numbers are considered largely meaningless.
+To evaluate the quality of our clustering methods, we use the **Silhouette Coefficient**. The Silhouette Coefficient is a value from -1 to 1, where 1 represents tightly packed clusters far apart and -1 represents random data with random labels. Typically, clustering results with negative numbers are considered largely meaningless.
+### Our three cluster results have the following Silhouette Coefficients (S):
 
-### Our three clutter results have the following Silhouette Coefficients (S):
+K-means on PCA for K = 5
+S = 0.377
 
-KMeans on TSNE for K = 5
+K-means on  t-SNE for K = 5
 S = 0.574
 
 DBSCAN on PCA with Eps 0.45, minPoints = 4
 S = 0.114
 
-DBSCAN on TSNE with Eps 2.5, minPoints = 4
+DBSCAN on  t-SNE with Eps 2.5, minPoints = 4
 S = 0.342
 
-These results that KMeans, despite its rudimentary approach, achieves the quantifiably best clusters. It should be noted, however, that after using t-SNE, the distance between well-separated clusters is not very meaningful. Therefore, Silhouette Coefficient on TSNE results must be taken with a grain of salt, since this metric is quite sensitive to cluster separation distance. Qualitatively, the figures above show that the two clustering methods with high Silhouette Coefficients do appear to have the best clustering.
+These results show that K-means, despite its rudimentary approach, achieves the quantifiably best clusters when paired with  t-SNE dimensionality reduction. It should be noted, however, that after using t-SNE, the distance between well-separated clusters is not very meaningful. Therefore, Silhouette Coefficient on t-SNE results must be taken with a grain of salt, since this metric is quite sensitive to cluster separation distance. Qualitatively, the figures above show that the two clustering methods with high Silhouette Coefficients do appear to have the best clustering.
 
 In the next phase of our project, we will assess the quality of our clusters using the features themselves. If our goal is to make meaningful groups of heart disease patients, how meaningful are the clusters?
 
@@ -92,24 +133,7 @@ We’ll answer this question by looking at the distributions of the original fea
 - Data Preprocessing - PCA and feature selection
 - Supervised/unsupervised method used - KMeans/DBScan 
 - Analysis using metrics
-<p align="center">
-  <img src="figs/cleveland_head.png" width="720">
-</p>
-<p align="center">
-  <img src="figs/standardized_head.png" width="720">
-</p>
-<p align="center">
-  <img src="figs/elbow_kmeans.png" width="720">
-</p>
-<p align="center">
-  <img src="figs/clusters_kmeans.png" width="720">
-</p>
-<p align="center">
-  <img src="figs/elbow_dbscan.png" width="720">
-</p>
-<p align="center">
-  <img src="figs/clusters_dbscan.png" width="720">
-</p>
+
 
 ### Supervised Machine Learning to Detect and Classify Anti-Vaccine Tweets 
 
@@ -214,6 +238,7 @@ Here is a visualization of the word vectors generated for some frequently occurr
 
 [5] Janosi, A., Steinbrunn, W., Pfisterer, M., & Detrano, R. (1988). Heart Disease Data Set [Data set]. https://archive.ics.uci.edu/ml/datasets/heart+Disease
 
+[6] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [Data repository]. Irvine, CA: University of California, School of Information and Computer Science. http://archive.ics.uci.edu/ml
 
 #### Proposed Project Timeline
 
