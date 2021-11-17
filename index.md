@@ -120,6 +120,7 @@ The ongoing pandemic has yielded not only various vaccines, but also a plethora 
 Autonomously detecting tweets with anti-vaccine content can help authorities efficiently find published messages on Twitter that may be spreading incorrect false information about vaccines.
 
 #### Data Collection
+We use the publicly available Avax Tweets Dataset [4] which contains around 4 million tweets scraped from Twitter. These tweets were scraped based on particular keywords related to anti-vaccination and vaccine hesitancy. Apart from the text of the tweet, the data also consists of supplemental information such as number of hashtags, the number of mentions etc. There are over 20 fields for each tweet. We downloaded this dataset and wrote a simple script to extract all the `json` files from each compressed file and choose 6 meaningful features manually which will help us in classification, while discarding the rest. We further preprocess this data, as explained in the Results section. 
 
 #### Methods:
 Previous work has proven that supervised machine learning methods are a viable solution for detecting anti-vaccine tweets [3]. Similar methods will be utilized to train a classifier to detect anti-vaccine tweets based upon the Avax Tweet dataset [4]. Normalization techniques including transforming text to lowercase, removing unneeded characters, and lemmatization will be applied to prepare the dataset for processing. The preprocessed data will be partitioned into separate datasets for training and testing purposes. A Support Vector Machine model and a Naive Bayes model will be independently tested as the classifier for the project. The performance of each classifier will be analyzed by considering metrics such as F1 scores.
@@ -127,8 +128,72 @@ Previous work has proven that supervised machine learning methods are a viable s
 #### Results and Discussion: 
 The performance metrics for each model will be presented and compared with previous studies [3] to determine the efficacy of each model.
 
-- Explain the data cleaning process
-- Data Preprocessing - PCA and feature selection
+##### Data Cleaning and Preprocessing
+Our final goal is to train a Machine Learning classifier on our tweets. In order to do this, we need to convert the text of all tweets to robust vector representations, which will be fed as input to our ML models. Hence, it is essential to clean the text of our data before we convert the sentences into vectors. Tweets can be really messy; for instance, one of the tweets in our dataset is: 
+
+```
+@Oktoba1 @shapulem @Bongagatshen Oh shit*t I saw it and have always known about Bill Gates depopulation. That man is nuts
+```
+
+We can see this text is extremely messy with various user mentions, hashtags and lots of stopwords (I, it, is etc.). We wish to extract words from this tweet that actually contain information about the tweet and discard the rest. We carry out a systematic and an efficient data cleaning and preprocessing pipeline as explained below: 
+
+- All the data is first converted to lower case.
+- All punctuation marks are removed from the text, which is why we don't notice any commas or full stops in the processed text. 
+- The stop words are removed from the text. 
+- We then convert numbers to their corresponding textual form, like "one" to "1". 
+- Removing User Mentions from the tweets. 
+- Performing word segmentation of the hashtags, for instance, #KillBillGates converts to `['kill', 'bill', 'gates']`
+- Elimination of webpage URL's from the text, such as `https://tinyurl/45hfhejwn5`
+
+After processing, the tweet above is converted into the following form: 
+
+```
+'oh shit saw alway known bill gate depopul man', 'nut'
+```
+And voila! We have our tweet cleaned up, devoid of any unnecessary hashtags and user mentions and consisting of words that are actually representative of the information the tweet wishes to convey. Now that our data has been cleaned, we have one more step left in the preprocessing - generating the vector representations. 
+
+For converting our preprocessed tweets to vectors, we use the popular `Word2Vec` model and generate a 96 dimensional vector for each word in the tweet. For this purpose, we convert each sentence into ints constituent words. For our example above, we obtain the following `list_of_words`. 
+
+```
+['oh',
+ 'shit',
+ 'saw',
+ 'alway',
+ 'known',
+ 'bill',
+ 'gate',
+ 'depopul',
+ 'man',
+ 'nut']
+```
+We do this for all the words in the tweet and average them out to generate a *single* 96-dimensional vector for each tweet. For the above tweet, we obtain the following vector (96 dimensions!)
+```
+array([ 5.37666000e-04,  5.18207796e-04, -1.12039914e-04,  1.05319139e-03,
+        1.75804401e-04,  6.02923421e-05,  5.01881624e-04, -2.36704507e-04,
+        1.40517872e-03, -1.06460932e-03,  1.30764327e-03,  1.15759881e-03,
+        1.97241021e-03, -1.32080975e-03, -2.53068808e-04, -1.12961288e-04,
+       -9.72209359e-04, -2.07749269e-04,  2.99530548e-04,  2.59809106e-04,
+        6.63112437e-04,  1.07209225e-04,  4.32135538e-04, -2.34051836e-04,
+       -1.50410832e-03, -1.23404741e-03,  1.40412878e-03, -1.64668173e-04,
+        7.00455781e-04, -5.04640365e-04,  9.10372999e-05,  2.98709702e-04,
+       -4.16984065e-04, -8.42609823e-04, -2.46841389e-04,  1.72498414e-05,
+        4.52818043e-04, -7.78393005e-04,  1.01294615e-04, -3.39327552e-04,
+        1.74363914e-03,  7.47963965e-06, -1.20861938e-03,  7.92024044e-04,
+        2.15746982e-04, -3.44382466e-04,  1.31812609e-03, -1.03099750e-03,
+        7.97298401e-04, -1.20819975e-03, -3.34248556e-04, -2.23026774e-04,
+       -1.38816406e-04,  8.12595978e-04, -3.76687627e-04, -5.56226408e-04,
+        6.67217565e-04, -1.29970188e-03,  4.32334312e-04, -2.00047430e-04,
+        1.24685379e-03,  1.16194182e-03,  2.29074249e-03,  1.61270315e-04,
+       -1.91903434e-03,  7.32190079e-04, -4.03655496e-04,  4.84672382e-04,
+        4.30977417e-04, -8.66198744e-04, -4.91266667e-04,  1.90914217e-03,
+       -6.29564613e-05,  1.15709208e-03,  9.10942640e-05, -4.04445784e-04,
+       -2.16572447e-04,  3.62433939e-04,  4.21591372e-05, -1.25255896e-03,
+        5.54569258e-04, -1.44953500e-04, -4.64453746e-04, -1.20326734e-04,
+       -8.27332081e-05, -4.15258794e-04, -1.43937394e-03,  5.20161183e-04,
+        6.71408542e-04,  1.23154560e-05,  5.22322713e-04, -6.71783066e-04,
+       -4.87862376e-04,  4.53212174e-04,  5.04155482e-04,  9.52582094e-04])
+```
+
 - Supervised/unsupervised method used - KMeans/DBScan 
 - Analysis using metrics
 
