@@ -138,7 +138,7 @@ We’ll answer this question by looking at the distributions of the original fea
 #### Introduction/Background
 The ongoing pandemic has yielded not only various vaccines, but also a plethora of anti-vaccination messages and posts all over the internet. The prevalence of anti-vaccine content has propagated a spread of health information across social media platforms. The spreading of false anti-vaccine information on a large scale has the potential to put human lives at risk. 
 
-#### Problem Definition: 
+#### Problem Definition
 Autonomously detecting tweets with anti-vaccine content can help authorities efficiently find published messages on Twitter that may be spreading incorrect false information about vaccines.
 
 #### Data Collection
@@ -150,13 +150,7 @@ We use the publicly available Avax Tweets Dataset [4] which contains around 4 mi
   <em>Figure 8: The Avax Tweets Dataset, after shortlisting 6 meaningful features and before any preprocessing </em>
 </p>
 
-#### Methods:
-Previous work has proven that supervised machine learning methods are a viable solution for detecting anti-vaccine tweets [3]. Similar methods will be utilized to train a classifier to detect anti-vaccine tweets based upon the Avax Tweet dataset [4]. Normalization techniques including transforming text to lowercase, removing unneeded characters, and lemmatization will be applied to prepare the dataset for processing. The preprocessed data will be partitioned into separate datasets for training and testing purposes. A Logistic Regression model, a Support Vector Machine model and a Naive Bayes model will be independently tested as the classifiers for the project. The performance of each classifier will be analyzed by considering metrics such as F1 scores.
-
-#### Results and Discussion: 
-The performance metrics for each model will be presented and compared with previous studies [3] to determine the efficacy of each model.
-
-#### Data Cleaning and Preprocessing
+##### Data Cleaning and Preprocessing
 Our final goal is to train a Machine Learning classifier on our tweets. In order to do this, we need to convert the text of all tweets to robust vector representations, which will be fed as input to our ML models. Hence, it is essential to clean the text of our data before we convert the sentences into vectors. Tweets can be really messy; for instance, one of the tweets in our dataset is: 
 
 ```
@@ -239,8 +233,14 @@ The word vectors are huge (96 dimensions) which is usually the case with all sor
   <em> Figure 10: Visualizing the word vectors for some frequently occurring words in a dataset. These have been plotted along two dimensions. The closeness of words indicates the similarity of their vector representations. </em>
 </p>
 
+#### Methods
+Previous work has proven that supervised machine learning methods are a viable solution for detecting anti-vaccine tweets [3]. Similar methods will be utilized to train a classifier to detect anti-vaccine tweets based upon the Avax Tweet dataset [4]. Normalization techniques including transforming text to lowercase, removing unneeded characters, and lemmatization will be applied to prepare the dataset for processing. The preprocessed data will be partitioned into separate datasets for training and testing purposes. A Logistic Regression model, a Support Vector Machine model and a Naive Bayes model will be independently tested as the classifiers for the project. The performance of each classifier will be analyzed by considering metrics such as F1 scores.
+
 ##### Supervised Method for Classification
 After successfully cleaning and preprocessing the data, we use **logistic regression** as our first supervised machine learning model. From our dataset, we manually annotate 700 tweets and create a 80-20 train-test split. We train our model on the train set with default parameters. We then use our trained model to predict anti-vax labels for the test dataset and perform an analysis on the robustness of our model's predictions. 
+
+#### Results and Discussion
+The performance metrics for each model will be presented and compared with previous studies [3] to determine the efficacy of each model.
 
 ##### Analysis using Metrics
 We plot the confusion matrix for our logistic regression model's predictions. We can see that only 3 labels for non anti-vax tweets that are incorrectly classified. However, there are 23 anti-vax tweets which are being incorrectly classified. This brings down the accuracy a bit and is mostly due to a small size of our annotated dataset. There are currently only 26 anti-vax tweets in the test split. We shall diligently work on improving this further with better preprocessing and annotating more tweets in our dataset. 
