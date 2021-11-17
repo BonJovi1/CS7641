@@ -13,12 +13,80 @@ Cardiovascular disease is one of the leading causes of death in the United State
 Identifying specific clinical sub-populations of patients with cardiovascular disease can help researchers develop more personalized treatments and help doctors better predict specific types of patients that will be at risk for developing heart disease.
 
 #### Data Collection
+##### About the Dataset
+We conducted the following analysis using the Heart Disease Dataset made publicly available through the University of California, Irvine’s Machine Learning Repository [5]. It includes data collected from patients treated by the Hungarian Institute of Cardiology, the University Hospitals in Zurich and Basel, Switzerland, the Long Beach Veterans Affairs Medical Center, and the Cleveland Clinic Foundation. 
+
+The published dataset is a subset of the original dataset, which contains fourteen features related to the patients’ sociodemographics and cardiovascular health. The published dataset was processed to account for any missing or corrupted data and anonymizes the records.
+
+
+##### Data Cleaning
+
+Data cleaning involved taking the raw data files and loading them into data frames, then applying categorical labels where appropriate. We then remove categorical features, as we are currently interested in applying clustering methods to numerical data. We measure the frequency of missing data for each feature, and eliminate those that are missing greater than 20% of the data. This was based on analyzing the frequencies. Most features had over 90% valid data whereas a few had less than 50%. In the interest of balancing the number of features with the amount of eliminated rows, 80% was chosen. We also  eliminate rows which are missing features. This process is done to maximize the number of valid data points available. 
+
+Before the final report, we plan to use interpolation methods to reduce the amount of eliminated data.
+
+
 
 #### Methods
 Unsupervised machine learning techniques offer a solution for organizing patients into sub-populations based on their medical history. A previous study has proven clustering algorithms to be successful in identifying clinical sub-populations of Alzheimer’s disease patients [2]. A similar exploratory method will be applied to study patients with cardiovascular disease. T-Stochastic Neighbor Embedding and Principal Component Analysis will be applied to produce independent dimensionally-reduced versions of the original dataset. K-Means and DBSCAN clustering algorithms will then be separably applied to the original dataset and the reduced dimensionality versions of the dataset. The analysis which produces the most separable clusters will be selected for further statistical analysis to determine the characterizing features of each cluster.
 
+##### Dimensionality Reduction
+
+We use dimensionality reduction for two reasons:
+Visualize the features
+Simplify our conclusions
+
+We independently use two methods of dimensionality reduction: **PCA** and **t-SNE**
+
+**PCA**
+We utilize Principal Component Analysis (PCA) to reduce our data to two dimensions, corresponding with our first two principal components. PCA finds an orthogonal basis for the datasets, with the spanning vectors in order of the directions of most variance. 
+
+We chose this method since after normalizing each parameter (eg. subtracting the mean and dividing by the standard deviation), features in heart disease dataset with high variance are hypothesized to have high meaning (age, cholesterol).
+
+Figure XXX below shows the two components selected. Both have quite high variance, and principal component 1 has slightly more variance than component 2. This similarity could suggest that more than 2 components will be useful.
+
+**t-SNE**
+We utilize t-distributed stochastic neighbor embedding to reduce the data into two dimensions.
+
+## Unsupervised Learning
+
+We independently use two clustering methods on the two dimension-reduced data sets: K-means and DBSCAN.
+## K-means
+
+We then apply K-means clustering to both the PCA, t-SNE, and non-reduced points. By plotting the Within-Cluster Sum of Square (WCSS) against the number of clusters, we obtain the following results. 
+Using the elbow method (i.e. selecting the point on the curve where the slope changes from greater than 1 to less than 1, or vise versa), we find the most effective number of clusters for each set of points.
+
+For t-SNE, the ideal number of clusters is K=5. For PCA, the ideal number of clusters is also K=5.
+
+We then apply DBSCAN to both PCA, t-SNE, and non-reduced points. By plotting the epsilon value against the average distance between points and their 4 nearest neighbors, we obtain the ideal epsilon values for each.
+
+For PCA, we find the ideal epsilon value to be around… [need to recompute]
+
+For t-SNE, we find the ideal epsilon value to be around…
+
+
 #### Results and Discussion
 The discovered clinical sub-populations will be presented along with their characterizing features. A review of medical literature will be conducted to contextualize these results with previous findings concerning cardiac disease.
+
+To evaluate the quality of our clustering methods, we use **Silhouette Coefficient**. The Silhouette Coefficient is a value from -1 to 1, where 1 represents tightly packed clusters far apart and -1 represents random data with random labels. Typically, clustering results with negative numbers are considered largely meaningless.
+
+### Our three clutter results have the following Silhouette Coefficients (S):
+
+KMeans on TSNE for K = 5
+S = 0.574
+
+DBSCAN on PCA with Eps 0.45, minPoints = 4
+S = 0.114
+
+DBSCAN on TSNE with Eps 2.5, minPoints = 4
+S = 0.342
+
+These results that KMeans, despite its rudimentary approach, achieves the quantifiably best clusters. It should be noted, however, that after using t-SNE, the distance between well-separated clusters is not very meaningful. Therefore, Silhouette Coefficient on TSNE results must be taken with a grain of salt, since this metric is quite sensitive to cluster separation distance. Qualitatively, the figures above show that the two clustering methods with high Silhouette Coefficients do appear to have the best clustering.
+
+In the next phase of our project, we will assess the quality of our clusters using the features themselves. If our goal is to make meaningful groups of heart disease patients, how meaningful are the clusters?
+
+We’ll answer this question by looking at the distributions of the original features within each cluster. We aim to contextualize each cluster with existing conditions in order to see if the cluster detects an existing type of patient or suggests a novel type of heart condition.
+
 
 - Explain the data cleaning process
 - Data Preprocessing - PCA and feature selection
