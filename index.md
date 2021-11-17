@@ -145,7 +145,7 @@ We’ll answer this question by looking at the distributions of the original fea
 #### Introduction/Background
 The ongoing pandemic has yielded not only various vaccines, but also a plethora of anti-vaccination messages and posts all over the internet. The prevalence of anti-vaccine content has propagated a spread of health information across social media platforms. The spreading of false anti-vaccine information on a large scale has the potential to put human lives at risk. 
 
-#### Problem Fefinition: 
+#### Problem Definition: 
 Autonomously detecting tweets with anti-vaccine content can help authorities efficiently find published messages on Twitter that may be spreading incorrect false information about vaccines.
 
 #### Data Collection
