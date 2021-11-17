@@ -24,7 +24,12 @@ The discovered clinical sub-populations will be presented along with their chara
 - Data Preprocessing - PCA and feature selection
 - Supervised/unsupervised method used - KMeans/DBScan 
 - Analysis using metrics
-
+<p align="center">
+  <img src="figs/cleveland_head.png" width="720">
+</p>
+<p align="center">
+  <img src="figs/standardized_head.png" width="720">
+</p>
 <p align="center">
   <img src="figs/elbow_kmeans.png" width="720">
 </p>
@@ -67,6 +72,8 @@ The performance metrics for each model will be presented and compared with previ
 [3] To, Q. G., To, K. G., Huynh, V.-A. N., Nguyen, N. T., Ngo, D. T., Alley, S. J., Tran, A. N., Tran, A. N., Pham, N. T., Bui, T. X., & Vandelanotte, C. (2021). Applying Machine Learning to Identify Anti-Vaccination Tweets During the Covid-19 Pandemic. *International Journal of Environmental Research and Public Health, 18*(8), 4069. https://doi.org/10.3390/ijerph18084069 
 
 [4] Muric, G., Wu, Y., & Ferrara, E. (2021). COVID-19 Vaccine Hesitancy on Social Media: Building a Public Twitter Dataset of Anti-Vaccine Content, Vaccine Misinformation and Conspiracies. https://doi.org/10.2196/preprints.30642 
+
+[5] Janosi, A., Steinbrunn, W., Pfisterer, M., & Detrano, R. (1988). Heart Disease Data Set [Data set]. https://archive.ics.uci.edu/ml/datasets/heart+Disease
 
 
 #### Proposed Project Timeline
