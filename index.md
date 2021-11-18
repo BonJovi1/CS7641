@@ -38,7 +38,7 @@ Before the final report, we plan to use interpolation methods to reduce the amou
 
 
 #### Methods
-Unsupervised machine learning techniques offer a solution for organizing patients into sub-populations based on their medical history. A previous study has proven clustering algorithms to be successful in identifying clinical sub-populations of Alzheimer’s disease patients [2]. A similar exploratory method will be applied to study patients with cardiovascular disease. Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (t-SNE) will be applied to produce independent dimensionally-reduced versions of the original dataset. K-means and DBSCAN clustering algorithms will then be separably applied to the original dataset and the reduced dimensionality versions of the dataset. The analysis which produces the most separable clusters will be selected for further statistical analysis to determine the characterizing features of each cluster.
+Unsupervised machine learning techniques offer a solution for organizing patients into sub-populations based on their medical history. A previous study has proven clustering algorithms to be successful in identifying clinical sub-populations of Alzheimer’s disease patients [2]. A similar exploratory method will be applied to study patients with cardiovascular disease. Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (t-SNE) will be applied to produce independent dimensionally-reduced versions of the original dataset. K-means and DBSCAN clustering algorithms will then be separably applied to reduced dimensionality versions of the dataset. The analysis which produces the most separable clusters will be selected for further statistical analysis to determine the characterizing features of each cluster.
 
 ##### Dimensionality Reduction
 
@@ -116,7 +116,7 @@ The discovered clinical sub-populations will be presented along with their chara
 
 To evaluate the quality of our clustering methods, we use the **Silhouette Coefficient**. The Silhouette Coefficient is a value from -1 to 1, where 1 represents tightly packed clusters far apart and -1 represents random data with random labels. Typically, clustering results with negative numbers are considered largely meaningless.
 
-##### Our three cluster results have the following Silhouette Coefficients (S):
+##### Our four cluster results have the following Silhouette Coefficients (S):
 
 K-means on PCA for K = 5: S = 0.377
 
