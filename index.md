@@ -16,7 +16,7 @@ Clustering heart-disease datasets has yielded meaningful subpopulations. Wilson 
 #### Problem Definition
 Identifying specific clinical subpopulations of patients with cardiovascular disease can help researchers develop more personalized treatments and help doctors better predict specific types of patients that will be at risk for developing heart disease.
 
-Our work adds to the body of research described. We set out to affirm the previous results and contribute some additional clusters for consideration to this field.
+Our work adds to the body of research described. We set out to confirm the previous results and contribute some additional clusters for consideration to this field.
 
 #### Data Collection
 ##### About the Dataset
