@@ -2,6 +2,8 @@
 
 ### Check out our [Proposal Video](https://www.youtube.com/watch?v=RcSERS1OwWU)! 
 
+### Check out our [Final Presentation Video]()! 
+
 ## Project Midterm Report
 
 ### Unsupervised Machine Learning to Investigate Cardiovascular Disease
@@ -9,14 +11,18 @@
 #### Introduction and Background
 Cardiovascular disease is one of the leading causes of death in the United States. Development of cardiovascular disease has been correlated with risk factors including obesity, high cholesterol, and hypertension [1]. Most of these risk factors are preventable with proper patient education.
 
+Clustering heart-disease datasets has yielded meaningful subpopulations. Wilson et al. performed clustering on risk factors and found a large correlation between weight and heart disease risk [7]. Twisk et al. observed clusters forming round three measurable body metrics: total-cholesterol-to-HDL ratio, sum of skin folds, and cardiopulmonary fitness (VO2-max) [8]. Singh and Rajesh combined a K-means algorithm with logistic regression to predict heart disease based on several features identified as important by K-means. [9]
+
 #### Problem Definition
-Identifying specific clinical sub-populations of patients with cardiovascular disease can help researchers develop more personalized treatments and help doctors better predict specific types of patients that will be at risk for developing heart disease.
+Identifying specific clinical subpopulations of patients with cardiovascular disease can help researchers develop more personalized treatments and help doctors better predict specific types of patients that will be at risk for developing heart disease.
+
+Our work adds to the body of research described. We set out to affirm the previous results and contribute some additional clusters for consideration to this field.
 
 #### Data Collection
 ##### About the Dataset
 We conducted the following analysis using the Heart Disease Dataset [5] made publicly available through the University of California, Irvine’s Machine Learning Repository [6]. It includes data collected from patients treated by the Hungarian Institute of Cardiology, the University Hospitals in Zurich and Basel, Switzerland, the Long Beach Veterans Affairs Medical Center, and the Cleveland Clinic Foundation. 
 
-The published dataset is a subset of the original dataset, which contains fourteen features related to the patients’ sociodemographics and cardiovascular health. The published dataset was processed to account for any missing or corrupted data and anonymizes the records. Figure 1 provides a sample from this dataset.
+The published dataset also provides commonly used subsets of the original dataset, which contain fourteen features related to the patients’ sociodemographics and cardiovascular health. The published dataset was processed to account for any missing or corrupted data and anonymizes the records. Figure 1 provides a sample from this dataset.
 
 <p align="center">
   <img src="figs/cleveland_head.png" width="720">
@@ -26,19 +32,26 @@ The published dataset is a subset of the original dataset, which contains fourte
 
 ##### Data Cleaning
 
-Data cleaning involves taking the raw data files and loading them into data frames, then applying categorical labels where appropriate. We then remove categorical features, as we are currently interested in applying clustering methods to numerical data. We measure the frequency of missing data for each feature, and eliminate those that are missing values for over 20% of the data. Most features have over 90% valid data points whereas a few have less than 50%. In the interest of balancing the number of features with the amount of eliminated data points, the threshold frequency of valid data points is set at 80%. We then eliminate rows which are missing features. This process is used to maximize the number of valid data points available. We then standardize our data as a final preprocessing step. A sample of this processed data is pictured in Figure 2.
+Data cleaning involves taking the raw data files and loading them into data frames. We concatenate the data frames for a total of 916 data points. We then apply categorical labels where appropriate. We then remove categorical features, as we are currently interested in applying clustering methods to numerical data. In one dataset, we include several discrete numerical features, and in another we only leave continuous features.
+
+We then measure the frequency of missing data for each feature, and eliminate those that are missing values for over 20% of the data. Most features have over 90% valid data points, whereas a few have less than 50%. In the interest of balancing the number of features with the amount of eliminated data points, the threshold frequency of valid data points is set at 80%. We then eliminate rows which are missing features. This process is used to maximize the number of valid data points available. When we include discretized features, we have 737 valid samples. When we include continuous features only, we have 823 valid samples. Samples of processed data for both analyzed datasets are pictured in Figures 2a and 2b.
+
+We then standardize our datasets as a final preprocessing step before working with our models. 
 
 <p align="center">
-  <img src="figs/standardized_head.png" width="720">
+  <img src="figs/us/cat/sample_data.png" width="720">
   <br>
-  <em>Figure 2: Cleaned and Standardized Dataset Sample</em>
+  <em>Figure 2a: Cleaned (not standardized) Dataset Sample - Discrete-Inclusive</em>
 </p>
 
-Before the final report, we plan to use interpolation methods to reduce the amount of eliminated data points.
-
+<p align="center">
+  <img src="figs/us/nocat/sample_data.png" width="480">
+  <br>
+  <em>Figure 2b: Cleaned (not standardized) Dataset Sample - Continuous-Only</em>
+</p>
 
 #### Methods
-Unsupervised machine learning techniques offer a solution for organizing patients into sub-populations based on their medical history. A previous study has proven clustering algorithms to be successful in identifying clinical sub-populations of Alzheimer’s disease patients [2]. A similar exploratory method will be applied to study patients with cardiovascular disease. Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (t-SNE) will be applied to produce independent dimensionally-reduced versions of the original dataset. K-means and DBSCAN clustering algorithms will then be separably applied to reduced dimensionality versions of the dataset. The analysis which produces the most separable clusters will be selected for further statistical analysis to determine the characterizing features of each cluster.
+Unsupervised machine learning techniques offer a solution for organizing patients into subpopulations based on their medical history. A previous study has proven clustering algorithms to be successful in identifying clinical subpopulations of Alzheimer’s disease patients [2]. A similar exploratory method will be applied to study patients with cardiovascular disease. Principal Component Analysis (PCA) and T-Distributed Stochastic Neighbor Embedding (t-SNE) will be applied to produce independent dimensionally-reduced versions of the original dataset. K-means and DBSCAN clustering algorithms will then be separably applied to reduced dimensionality versions of the dataset. The analysis which produces the most separable clusters will be selected for further statistical analysis to determine the characterizing features of each cluster.
 
 ##### Dimensionality Reduction
 
@@ -52,23 +65,29 @@ We independently use two methods of dimensionality reduction: **PCA** and **t-SN
 
 We utilize Principal Component Analysis (PCA) to reduce our data to two dimensions, corresponding with our first two principal components. PCA finds an orthogonal basis for the datasets, with the spanning vectors in order of the directions of most variance. 
 
-We choose this method since after normalizing each parameter (eg. subtracting the mean and dividing by the standard deviation), features in the heart disease dataset with high variance are hypothesized to have high meaning (age, cholesterol).
+We choose this method since after normalizing each parameter (e.g. subtracting the mean and dividing by the standard deviation), features in the heart disease dataset with high variance are hypothesized to have high meaning (age, cholesterol).
 
-Figure 3a (left) shows the two selected components. Both have quite high variance, and principal component 1 has slightly more variance than component 2. This similarity could suggest that more than 2 components will be useful.
+Figures 3a and 3b show the two selected components for both processed datasets. The components have quite high variance, and principal component 1 has just slightly more variance than component 2 in both cases. This similarity could suggest that more than 2 components will be useful.
 
 
 ###### t-SNE
 
 We utilize T-Distributed Stochastic Neighbor Embedding (t-SNE) to reduce the data into two dimensions. We choose to use t-SNE due to the fact that it uses a normal distribution to retain the variance exhibited by points in higher dimensions when they are projected into lower dimensions. We choose this method for similar reasons to our choice of PCA, to reduce our dimensionality while obtaining a useful representation of trends in our data.
 
-Figure 3b (right) shows the data points after transformation by t-SNE.
+Figures 3a and 2b also show the data points after transformation by t-SNE.
+
 
 <p align="center">
-  <img src="figs/scatterplots.png" width="720">
+  <img src="figs/us/cat/pca_tsne.png" width="720">
   <br>
-  <em>Figure 3: Scatter plots of Principal Components and t-SNE Dimensions</em>
+  <em>Figure 3a: Scatter plots of Principal Components and t-SNE Dimensions - Discrete-Inclusive</em>
 </p>
 
+<p align="center">
+  <img src="figs/us/nocat/pca_tsne.png" width="720">
+  <br>
+  <em>Figure 3b: Scatter plots of Principal Components and t-SNE Dimensions - Continuous-Only</em>
+</p>
 
 ##### Unsupervised Learning
 
@@ -76,47 +95,73 @@ We independently use two clustering methods on the two dimension-reduced data se
 
 ###### K-means
 
-We apply K-means clustering to both the PCA and t-SNE points. By plotting the Within-Cluster Sum of Square (WCSS) against the number of clusters, we obtain the following results in Figure 4a (left). 
+We apply K-means clustering to both the PCA and t-SNE points. By plotting the Within-Cluster Sum of Square (WCSS) against the number of clusters, we obtain the following graphs. 
+
+Using the elbow method on these graphs (i.e. selecting the point on the curve where the slope changes from greater than 1 to less than 1, or vise versa), we find the most effective number of clusters for each set of points.
+For both PCA and t-SNE, the ideal number of clusters is found to be K=5 for our dataset including discrete features. The formed clusters for the dataset with discrete features can be found in Figures 4a and 4b. Those for the dataset with continuous features only can be found in Figures 4c and 4d.
+
 
 <p align="center">
-  <img src="figs/elbow_kmeans.png" width="720">
+  <img src="figs/us/cat/k_pca.png" width="720">
   <br>
-  <em>Figure 4: Elbow Plots for K-means: PCA (left), t-SNE (right)</em>
+  <em>Figure 4a: Elbow Plots & Clusters for K-means with PCA - Discrete-Inclusive</em>
 </p>
 
-Using the elbow method (i.e. selecting the point on the curve where the slope changes from greater than 1 to less than 1, or vise versa), we find the most effective number of clusters for each set of points.
-For both PCA and t-SNE, the ideal number of clusters is found to be K=5. The formed clusters can be found in Figure 5.
+<p align="center">
+  <img src="figs/us/cat/k_tsne.png" width="720">
+  <br>
+  <em>Figure 4b: Elbow Plots & Clusters for K-means with t-SNE - Discrete-Inclusive</em>
+</p>
 
 <p align="center">
-  <img src="figs/clusters_kmeans.png" width="720">
+  <img src="figs/us/nocat/k_pca.png" width="720">
   <br>
-  <em>Figure 5: Plots for K-means: PCA (left), t-SNE (right)</em>
+  <em>Figure 4c:  Elbow Plots & Clusters for K-means with PCA - Continuous-Only</em>
+</p>
+
+<p align="center">
+  <img src="figs/us/nocat/k_tsne.png" width="720">
+  <br>
+  <em>Figure 4d: Elbow Plots & Clusters for K-means with t-SNE - Continuous-Only</em>
 </p>
 
 ###### DBSCAN
 
 We then apply DBSCAN to both PCA and t-SNE. By plotting the epsilon value against the average distance between points and their 4 nearest neighbors and applying the elbow method, we obtain the ideal epsilon values for each. Experimentation with various values within the range of the ‘elbow’ allows for tuning the results. 
 
-<p align="center">
-  <img src="figs/elbow_dbscan.png" width="720">
-  <br>
-  <em>Figure 6: Elbow Plots for DBSCAN: PCA (left), t-SNE (right)</em>
-</p>
-
-For PCA, we find the ideal epsilon value to be .45. For t-SNE, we find the ideal epsilon value to be 2.5. The formed clusters can be seen in Figure 7.
+For PCA on the discrete-inclusive dataset, we find the ideal epsilon value to be .45. For t-SNE on the same dataset, we find the ideal epsilon value to be 2.5. The formed clusters can be seen in Figures 5a and 5b.
+For PCA on the continuous-only dataset, we find the ideal epsilon value to be .4. For t-SNE on the same dataset, we find the ideal epsilon value to be 3. The formed clusters can be seen in Figures 5c and 5d.
 
 <p align="center">
-  <img src="figs/clusters_dbscan.png" width="720">
+  <img src="figs/us/cat/d_pca.png" width="720">
   <br>
-  <em>Figure 7: Plots for DBSCAN: PCA (left), t-SNE (right)</em>
+  <em>Figure 5a: Elbow Plots & Clusters for DBSCAN with PCA - Discrete-Inclusive</em>
 </p>
+
+<p align="center">
+  <img src="figs/us/cat/d_tsne.png" width="720">
+  <br>
+  <em>Figure 5b: Elbow Plots & Clusters for DBSCAN with t-SNE - Discrete-Inclusive</em>
+</p>
+
+<p align="center">
+  <img src="figs/us/nocat/d_pca.png" width="720">
+  <br>
+  <em>Figure 5c:  Elbow Plots & Clusters for DBSCAN with PCA - Continuous-Only</em>
+</p>
+
+<p align="center">
+  <img src="figs/us/nocat/d_tsne.png" width="720">
+  <br>
+  <em>Figure 5d: Elbow Plots & Clusters for DBSCAN with t-SNE - Continuous-Only</em>
+</p>
+
+
 
 #### Results and Discussion
-The discovered clinical sub-populations will be presented along with their characterizing features. A review of medical literature will be conducted to contextualize these results with previous findings concerning cardiac disease.
-
 To evaluate the quality of our clustering methods, we use the **Silhouette Coefficient**. The Silhouette Coefficient is a value from -1 to 1, where 1 represents tightly packed clusters far apart and -1 represents random data with random labels. Typically, clustering results with negative numbers are considered largely meaningless.
 
-##### Our four cluster results have the following Silhouette Coefficients (S):
+Our four discrete-inclusive cluster results have the following Silhouette Coefficients (S):
 
 K-means on PCA for K = 5: S = 0.377
 
@@ -126,11 +171,64 @@ DBSCAN on PCA with Eps 0.45, minPoints = 4: S = 0.114
 
 DBSCAN on  t-SNE with Eps 2.5, minPoints = 4: S = 0.342
 
-These results show that K-means, despite its rudimentary approach, achieves the quantifiably best clusters when paired with  t-SNE dimensionality reduction. It should be noted, however, that after using t-SNE, the distance between well-separated clusters is not very meaningful. Therefore, Silhouette Coefficient on t-SNE results must be taken with a grain of salt, since this metric is quite sensitive to cluster separation distance. Qualitatively, the figures above show that the two clustering methods with high Silhouette Coefficients do appear to have the best clustering.
 
-In the next phase of our project, we will assess the quality of our clusters using the features themselves. If our goal is to make meaningful groups of heart disease patients, how meaningful are the clusters?
+Our four continuous-only cluster results have the following Silhouette Coefficients (S):
 
-We’ll answer this question by looking at the distributions of the original features within each cluster. We aim to contextualize each cluster with existing conditions in order to see if the cluster detects an existing type of patient or suggests a novel type of heart condition.
+K-means on PCA for K = 5: S = 0.411
+
+K-means on  t-SNE for K = 5: S = 0.520
+
+DBSCAN on PCA with Eps 0.45, minPoints = 4: S = 0.383
+
+DBSCAN on  t-SNE with Eps 2.5, minPoints = 4: S = 0.071
+
+These results show that K-means, despite its rudimentary approach, achieves the quantifiably best clusters when paired with t-SNE dimensionality reduction. It should be noted, however, that after using t-SNE, the distance between well-separated clusters is not very meaningful. Therefore, Silhouette Coefficient on t-SNE results must be taken with a grain of salt, since this metric is quite sensitive to cluster separation distance. Qualitatively, the figures above show that the two clustering methods with high Silhouette Coefficients do appear to have the best clustering.
+
+##### Cluster Analysis
+For the models that were best performing for each dataset, we ran a series of calculations similar to Prakash, J. et al. [2], the results of which can be seen in Figures 6a and 6b. This process involved calculating the mean for each feature in the cluster and in the whole dataset, calculating the average fold change for clusters by finding the difference in those means, and then obtaining percent fold change from the average fold change
+
+<p align="center">
+  <img src="figs/us/cat/k_tsne_averages_table_head.png" width="720">
+  <br>
+  <em>Figure 6a: K-means with t-SNE Cluster Calculation Table - Discrete-Inclusive</em>
+</p>
+
+<p align="center">
+  <img src="figs/us/nocat/k_tsne_averages_table_tail.png" width="720">
+  <br>
+  <em>Figure 6b: K-means with t-SNE Cluster Calculation Table - Continuous-Only</em>
+</p>
+
+As shown below in figure 7a, when including discrete features, each cluster appears characterized by a few key features. For example, Cluster 4 differs by more than 15% from the dataset mean on only 3 features: heart disease severity (num, 39.5%), resting ECG (restecg, 32.6%), and fasting blood sugar (fbs, 570%).
+
+In fact, Cluster 4 is particularly interesting in that it contains all the patients with non-zero fasting blood sugar level. We believe the high number of patients with zero fbs did not, in reality, have this value measured. The dataset notes make no mention of whether zero makes sense for this value, nor when a zero indicates a missing value.
+
+Cluster 2 and 3 deserve more detailed discussion, since these two have the least and most severe heart disease, respectively. The two clusters have some similarities: smaller than average ST depression induced by exercise relative to rest (oldpeak), and approximately average resting blood pressure. They differ meaningfully in cholesterol level (chol) and whether exercise induced angina (exang).  Cluster 3, with severe heart disease, had near zero cholesterol and angina induced by exercise in 58.0% more patients than average. Cluster 2, with the least heart disease, suffered angina from exercise 71.1% less often than average, and had a cholesterol level only 8% above average.
+
+In figure 7b, we see that in the continuous-only dataset, the clusters are defined by fewer features. Cluster 1 is meaningfully different from Cluster 2 with higher cholesterol levels, and
+Cluster 2 has lower maximum heart rate (thalach) and lower ST depression induced by exercise relative to rest (oldpeak). Cluster 2 also has extraordinarily low cholesterol levels. It is possible we missed something in the data in preprocessing, or that there is a bias present causing this.
+
+<p align="center">
+  <img src="figs/us/cat/k_tsne_perFoldChangeTable.png" width="720">
+  <br>
+  <em>Figure 7a: Percent Differences between Cluster Mean and Dataset Mean for K-means on t-SNE - Discrete-Inclusive</em>
+</p>
+
+<p align="center">
+  <img src="figs/us/nocat/k_tsne_perFoldChangeTable.png" width="360">
+  <br>
+  <em>Figure 7b: Percent Differences between Cluster Mean and Dataset Mean for K-means on t-SNE - Continuous-Only</em>
+</p>
+
+#### Conclusion and Context
+
+Just like Singh and Rajesh [9], we find K-means the most effective clustering algorithm for producing meaningful subpopulations. With a silhouette coefficient of 0.574, it outperforms DBSCAN, which has a silhouette coefficient of 0.342. 
+
+We also find t-SNE to outperform PCA for this dataset; t-SNE improved on PCA’s silhouette coefficient of 0.377, achieving 0.574
+
+In terms of identifying important features, our results are most consistent with those of Twisk et al. [8]. We find poor cardiovascular athletic performance, measured by whether ST depression or angina were induced by exercise, strongly correlated with more severe heart disease. Twisk found the same correlation regarding a low VO2-max, one of the best measures of cardiovascular performance ability. 
+
+Due to differences in available features, we’re unable to affirm or disagree with additional feature correlations. For example, Twisk identified the ratio of LDL to HDL type cholesterol as a major risk factor. Our dataset measured only total cholesterol.
 
 
 ### Supervised Machine Learning to Detect and Classify Anti-Vaccine Tweets 
