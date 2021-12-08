@@ -370,6 +370,12 @@ Our model classifies anti-vax tweets with **an accuracy of 81.42%**. We also use
 
 [6] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [Data repository]. Irvine, CA: University of California, School of Information and Computer Science. http://archive.ics.uci.edu/ml
 
+[7] Wilson, P. W., Kannel, W. B., Silbershatz, H., & D'Agostino, R. B. (1999). Clustering of metabolic factors and coronary heart disease. *Archives of internal medicine*, 159(10), 1104-1109.
+
+[8] Twisk, J. W., Kemper, H. C., Van Mechelen, W., & Post, G. B. (2001). Clustering of risk factors for coronary heart disease: the longitudinal relationship with lifestyle. *Annals of epidemiology*, *11*(3), 157-165.
+
+[9] Singh, R., & Rajesh, E. (2019). Prediction of Heart Disease by Clustering and Classification Techniques Prediction of Heart Disease by Clustering and Classification Techniques. *International Journal of Computer Sciences and Engineering*.
+
 #### Proposed Project Timeline
 
 <p align="center">
