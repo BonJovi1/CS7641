@@ -4,7 +4,7 @@
 
 ### Check out our [Final Presentation Video]()! 
 
-## Project Midterm Report
+## Project Final Report
 
 ### Unsupervised Machine Learning to Investigate Cardiovascular Disease
 
