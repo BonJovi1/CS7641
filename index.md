@@ -230,7 +230,6 @@ In terms of identifying important features, our results are most consistent with
 
 Due to differences in available features, we’re unable to affirm or disagree with additional feature correlations. For example, Twisk identified the ratio of LDL to HDL type cholesterol as a major risk factor. Our dataset measured only total cholesterol.
 
-
 ### Supervised Machine Learning to Detect and Classify Anti-Vaccine Tweets 
 
 #### Introduction/Background
@@ -350,9 +349,9 @@ Previous work has proven that supervised machine learning methods are a viable s
 After successfully cleaning and preprocessing the data, we use **logistic regression** as our first supervised machine learning model. From our dataset, we manually annotate 1050 tweets and create a 80-20 train-test split. We train our model on the train set with default parameters. We then use our trained model to predict anti-vax labels for the test dataset and perform an analysis on the robustness of our model's predictions. The performance on the non anti-vax labels is decent, but the model is able to only correctly classify around 25 anti-vax tweets out of 93, as seen in the confusion matrix in Figure 11. 
 
 <p align="center">
-  <img src="supervised/confusion_matrices.png" width="720">
+  <img src="figs/confusions.png" width="720">
   <br>
-  <em> Figure 11: Plotting the confusion matrix for all the supervised ML models. </em>
+  <em> Figure 11: Plotting the confusion matrix for all the supervised ML models. Clockwise from upper left: logistic regression, support vector machine, BERT and MLP neural network </em>
 </p>
 
 ##### Support Vector Machine
@@ -364,9 +363,9 @@ Having failed to obtain satisfactory results from classical machine learning mod
 We then perform hyperparameter tuning and try out various values for our parameters, before zeroing in on the ones with the highest accuracy. We use GridSearch to perform this tuning and obtain the best value for the learning rate as 0.0001. We can see from the confusion matrix below that it is able to predict 60 anti-vax tweets correctly, few more than before! 
 
 <p align="center">
-  <img src="supervised/confusion_matrices.png" width="720">
+  <img src="figs/confusion_hyper.png" width="480">
   <br>
-  <em> Figure 11: Plotting the confusion matrix for the MLP classifer after performing hyperparameter tuning. </em>
+  <em> Figure 12: Plotting the confusion matrix for the MLP classifer after performing hyperparameter tuning. </em>
 </p>
 
 ##### BERT
@@ -376,42 +375,51 @@ Finally, we train BERT, which is one of the most popular transformer based netwo
 The performance metrics for each model will be presented and compared with previous studies [3] to determine the efficacy of each model.
 
 ##### Analysis using Metrics
-Our LR model classifies anti-vax tweets with an accuracy of 62.3%. 
+**Our LR model classifies anti-vax tweets with an accuracy of 62.3%.** 
 
 <p align="center">
-  <img src="supervised/metrics1.png" width="720">
+  <img src="figs/confusion1.png" width="650">
   <br>
-  <em> Figure 12: Various metrics applied to analyze the performance of the LR classifier. </em>
+  <em> Figure 13: Various metrics applied to analyze the performance of the LR classifier. </em>
 </p>
 
-Our SVM model classifies anti-vax tweets with an accuracy of 63.8%. However, the recall value for anti-vax labels are still low as not many are being classified correctly.
+Our **SVM model classifies anti-vax tweets with an accuracy of 63.8%.** However, the recall value for anti-vax labels are still low as not many are being classified correctly.
 
 <p align="center">
-  <img src="supervised/metrics2.png" width="720">
+  <img src="figs/confusion2.png" width="650">
   <br>
-  <em> Figure 12: Various metrics applied to analyze the performance of the SVM classifier. </em>
+  <em> Figure 14: Various metrics applied to analyze the performance of the SVM classifier. </em>
 </p>
 
-Our MLP neural network classifies anti-vax tweets with an accuracy of 67.1%. We obtain higher values for both precision and recall, especially for the anti-vax labels.
+Our **MLP neural network classifies anti-vax tweets with an accuracy of 67.1%**. We obtain higher values for both precision and recall, especially for the anti-vax labels.
 
 <p align="center">
-  <img src="supervised/metrics3.png" width="720">
+  <img src="figs/confusion3.png" width="650">
   <br>
-  <em> Figure 12: Various metrics applied to analyze the performance of the MLP classifier. </em>
+  <em> Figure 15: Various metrics applied to analyze the performance of the MLP classifier. </em>
 </p>
 
-After performing hyper parameter tuning, our MLP neural network classifies anti-vax tweets with an accuracy of 69.23%. Precision and recall are both 65% for anti-vax tweets! 
-
+After performing hyper parameter tuning, our MLP neural network classifies anti-vax tweets **with an accuracy of 69.23%**. Precision and recall are both 65% for anti-vax tweets! 
 
 <p align="center">
-  <img src="supervised/metrics4.png" width="720">
+  <img src="figs/confusion4.png" width="650">
   <br>
-  <em> Figure 12: Various metrics applied to analyze the performance of the MLP classifier after hyper parameter tuning. </em>
+  <em> Figure 16: Various metrics applied to analyze the performance of the MLP classifier after hyper parameter tuning. </em>
 </p>
 
-BERT significantly outperforms all other ML models and classifies anti-vax tweets with an **accuracy of 76.43%.** We achieve a **70% precision** and **89% recall** scores for the anti-vax tweets, the highest thus far, without making much of a compromise on the precision and recall values for non-anti-vax tweets.  
+**BERT significantly outperforms all other ML models and classifies anti-vax tweets with an accuracy of 76.43%.** We achieve a **70% precision** and **89% recall** scores for the anti-vax tweets, the highest thus far, without making much of a compromise on the precision and recall values for non-anti-vax tweets. 
 
-Hence, BERT performs the best for our dataset by correctly classifying anti-vax tweets with an accuracy of 76.43%, signifianctly higher than those of the other classical ML models such as SVM and LR. 
+<p align="center">
+  <img src="figs/confusion5.png" width="650">
+  <br>
+  <em> Figure 17: Various metrics applied to analyze the performance of the BERT classifier. </em>
+</p>
+
+#### Conclusion 
+- BERT performs the best for our dataset by correctly classifying anti-vax tweets **with an accuracy of 76.43%**, signifianctly higher than those of the other classical ML models. 
+- The two layer MLP classifier comes in second, achieving an accuracy of around 69% and lower precision and recall scores. 
+- SVM and logistic regression do not perform satisfactorily and fail to classify anti-vax tweets with a good accuracy. 
+- We notice that apart from the text of the tweet, it does help to include the other supplemental information such as the number of user mentions, number of re-tweets etc. This information is also encoded in the vector embeddings and helps our supervised ML models to learn whether a tweet is anti-vax or not. 
 
 #### Citations
 [1] Tran, D.-M. T., Lekhak, N., Gutierrez, K., & Moonie, S. (2021). Risk Factors Associated with Cardiovascular Disease Among Adult Nevadans. *PLOS ONE, 16*(2). https://doi.org/10.1371/journal.pone.0247105 
