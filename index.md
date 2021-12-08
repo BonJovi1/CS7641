@@ -240,7 +240,7 @@ The ongoing pandemic has yielded not only various vaccines, but also a plethora 
 Autonomously detecting tweets with anti-vaccine content can help authorities efficiently find published messages on Twitter that may be spreading incorrect false information about vaccines.
 
 #### Data Collection
-We use the publicly available Avax Tweets Dataset [4] which contains around 4 million tweets scraped from Twitter. These tweets were scraped based on particular keywords related to anti-vaccination and vaccine hesitancy. Apart from the text of the tweet, the data also consists of supplemental information such as number of hashtags, the number of mentions etc. There are over 20 fields for each tweet. We downloaded this dataset and wrote a simple script to extract all the `json` files from each compressed file and choose 6 meaningful features manually which will help us in classification, while discarding the rest. We further preprocess this data, as explained in the Results section. 
+We use the publicly available Avax Tweets Dataset [4] which contains around 4 million tweets scraped from Twitter. These tweets were scraped based on particular keywords related to anti-vaccination and vaccine hesitancy. Apart from the text of the tweet, the data also consists of supplemental information such as number of hashtags, the number of mentions etc. There are over 20 fields for each tweet. We downloaded this dataset and wrote a simple script to extract all the `json` files from each compressed file and choose 6 meaningful features manually which will help us in classification, while discarding the rest. We manually annotate around 1050 tweets from this dataset and obtain 484 “anti-vax” tweets and 566 “not anti-vax” annotated tweets. We further preprocess this data, as explained in the next section. 
 
 <p align="center">
   <img src="figs/dataset_before.png" width="720">
@@ -249,13 +249,13 @@ We use the publicly available Avax Tweets Dataset [4] which contains around 4 mi
 </p>
 
 ##### Data Cleaning and Preprocessing
-Our final goal is to train a Machine Learning classifier on our tweets. In order to do this, we need to convert the text of all tweets to robust vector representations, which will be fed as input to our ML models. Hence, it is essential to clean the text of our data before we convert the sentences into vectors. Tweets can be really messy; for instance, one of the tweets in our dataset is: 
+Our final goal is to train various supervised machine learning models on our tweets. In order to do this, we need to convert the text of all tweets to robust vector representations, which will be fed as input to our ML models. Hence, it is essential to **clean the text of our data** before we can convert the sentences into vectors. Tweets can be really messy; for instance, one of the tweets in our dataset is: 
 
 ```
 @Oktoba1 @shapulem @Bongagatshen Oh shit*t I saw it and have always known about Bill Gates depopulation. That man is nuts
 ```
 
-We can see this text is extremely messy with various user mentions, hashtags and lots of stopwords (I, it, is etc.). We wish to extract words from this tweet that actually contain information about the tweet and discard the rest. We carry out a systematic and an efficient data cleaning and preprocessing pipeline as explained below. 
+We can see this text is extremely messy with various user mentions, hashtags and lots of stopwords (I, it, is etc.). We wish to extract words from this tweet that actually contain relevant and salient information about the tweet, while discarding the rest. We carry out a systematic and an efficient data cleaning and preprocessing pipeline as explained below. 
 
 - **Deletion of User Mentions** from the tweets. 
 - Performing **word segmentation of the hashtags**, for instance, #KillBillGates converts to `['kill', 'bill', 'gates']`
@@ -273,7 +273,19 @@ After processing, the tweet above is converted into the following form:
 ```
 'oh shit saw alway known bill gate depopul man', 'nut'
 ```
-And voila! We have our tweet cleaned up which is now devoid of any unnecessary hashtags and user mentions. It purely  consisting of words that are actually representative of the information the tweet wishes to convey. Now that our data has been cleaned, we have one more step left in the preprocessing - generating the vector representations for the tweets. 
+And voila! We have our tweet cleaned up which is now devoid of any unnecessary hashtags and user mentions. It purely consists of words that are actually representative of the information the tweet wishes to convey. Here is another example of the same: 
+
+Original Tweet: 
+```
+https://tinyurl/45hfhejwn5 @feckuser @donaldtrumpfans I will NEVER take a vaccine owned and controlled by the GLOBALIST ELITES. #VaccinesKill
+```
+
+Cleaned and Preprocessed Tweet: 
+```
+never take vaccin control globalist elit vaccines kill
+```
+
+Now that our data has been cleaned, we have one more step left in the preprocessing - generating the vector representations for the tweets. 
 
 For converting our preprocessed tweets to vectors, we use the popular `Word2Vec` model and generate a 96 dimensional vector for each word in the tweet. For this purpose, we convert each sentence into its constituent words. For our example above, we obtain the following `list_of_words`. 
 
@@ -332,30 +344,74 @@ The word vectors are huge (96 dimensions) which is usually the case with all sor
 </p>
 
 #### Methods
-Previous work has proven that supervised machine learning methods are a viable solution for detecting anti-vaccine tweets [3]. Similar methods will be utilized to train a classifier to detect anti-vaccine tweets based upon the Avax Tweet dataset [4]. Normalization techniques including transforming text to lowercase, removing unneeded characters, and lemmatization will be applied to prepare the dataset for processing. The preprocessed data will be partitioned into separate datasets for training and testing purposes. A Logistic Regression model, a Support Vector Machine model and a Naive Bayes model will be independently tested as the classifiers for the project. The performance of each classifier will be analyzed by considering metrics such as F1 scores.
+Previous work has proven that supervised machine learning methods are a viable solution for detecting anti-vaccine tweets [3]. Similar methods will be utilized to train a classifier to detect anti-vaccine tweets based upon the Avax Tweet dataset [4]. Normalization techniques including transforming text to lowercase, removing unneeded characters, and lemmatization have been applied to prepare the dataset for processing. The preprocessed data has been partitioned into separate datasets for training and testing purposes. We shall independently test 4 supervised machine learning algorithms on our dataset - logistic regression, support vector machine, MLP neural network and BERT. The performance of each classifier will be analyzed by considering metrics such as accuracy and F1 scores.
 
-##### Supervised Method for Classification
-After successfully cleaning and preprocessing the data, we use **logistic regression** as our first supervised machine learning model. From our dataset, we manually annotate 700 tweets and create a 80-20 train-test split. We train our model on the train set with default parameters. We then use our trained model to predict anti-vax labels for the test dataset and perform an analysis on the robustness of our model's predictions. 
+##### Logistic Regression
+After successfully cleaning and preprocessing the data, we use **logistic regression** as our first supervised machine learning model. From our dataset, we manually annotate 1050 tweets and create a 80-20 train-test split. We train our model on the train set with default parameters. We then use our trained model to predict anti-vax labels for the test dataset and perform an analysis on the robustness of our model's predictions. The performance on the non anti-vax labels is decent, but the model is able to only correctly classify around 25 anti-vax tweets out of 93, as seen in the confusion matrix in Figure 11. 
+
+<p align="center">
+  <img src="supervised/confusion_matrices.png" width="720">
+  <br>
+  <em> Figure 11: Plotting the confusion matrix for all the supervised ML models. </em>
+</p>
+
+##### Support Vector Machine
+We use SVM as our next supervised ML model and train it on our annotated tweets dataset. We can see from the confusion matrix that the performance improves considerably for the non anti vax tweets, with lesser tweets being incorrectly classified. However, the performance for anti-vax tweets remains somewhat similar. 
+
+##### Neural Network: Multi Layer Perceptron Classifier
+Having failed to obtain satisfactory results from classical machine learning models, we move on to neural networks. We use a two layer Multi Layer Perceptron (MLP) classifier as our third Machine Learning model. We use ReLU activation with Adam Optimization and a learning rate of 0.001. We keep the maximum number of iterations to 400 and train this classifier on our embedded tweet vectors from the dataset. We see a good improvement over the previous two models for the anti-vax tweets. Even though there is a dip in the number of correct predictions for label-0 data points, this is well compensated by the increase in number of correctly classified anti-vax tweets, as evident from the confusion matrix in Figure 11. 
+
+We then perform hyperparameter tuning and try out various values for our parameters, before zeroing in on the ones with the highest accuracy. We use GridSearch to perform this tuning and obtain the best value for the learning rate as 0.0001. We can see from the confusion matrix below that it is able to predict 60 anti-vax tweets correctly, few more than before! 
+
+<p align="center">
+  <img src="supervised/confusion_matrices.png" width="720">
+  <br>
+  <em> Figure 11: Plotting the confusion matrix for the MLP classifer after performing hyperparameter tuning. </em>
+</p>
+
+##### BERT
+Finally, we train BERT, which is one of the most popular transformer based network for language understanding today. We train BERT on our tweet vectors and notice that it easily outperforms all other ML models, including the MLP. Although there are few more non-anti-vax tweets being incorrectly classified, this model is now correctly classifying 89 anti-vax tweets!
 
 #### Results and Discussion
 The performance metrics for each model will be presented and compared with previous studies [3] to determine the efficacy of each model.
 
 ##### Analysis using Metrics
-We plot the confusion matrix for our logistic regression model's predictions. We can see that only 3 labels for non anti-vax tweets that are incorrectly classified. However, there are 23 anti-vax tweets which are being incorrectly classified. This brings down the accuracy a bit and is mostly due to a small size of our annotated dataset. There are currently only 26 anti-vax tweets in the test split. We shall diligently work on improving this further with better preprocessing and annotating more tweets in our dataset. 
+Our LR model classifies anti-vax tweets with an accuracy of 62.3%. 
 
 <p align="center">
-  <img src="figs/confusion.png" width="480">
+  <img src="supervised/metrics1.png" width="720">
   <br>
-  <em> Figure 11: The Confusion Matrix obtained after testing the logistic regression model on the test dataset. </em>
+  <em> Figure 12: Various metrics applied to analyze the performance of the LR classifier. </em>
 </p>
 
-Our model classifies anti-vax tweets with **an accuracy of 81.42%**. We also use many other other metrics such as precision, recall and F1-score using the `sklearn` metrics and report these results. 
+Our SVM model classifies anti-vax tweets with an accuracy of 63.8%. However, the recall value for anti-vax labels are still low as not many are being classified correctly.
 
 <p align="center">
-  <img src="figs/metrics.png" width="720">
-  <br> 
-  <em> Figure 12: Various metrics applied to analyze the performance of the classifier. </em>
+  <img src="supervised/metrics2.png" width="720">
+  <br>
+  <em> Figure 12: Various metrics applied to analyze the performance of the SVM classifier. </em>
 </p>
+
+Our MLP neural network classifies anti-vax tweets with an accuracy of 67.1%. We obtain higher values for both precision and recall, especially for the anti-vax labels.
+
+<p align="center">
+  <img src="supervised/metrics3.png" width="720">
+  <br>
+  <em> Figure 12: Various metrics applied to analyze the performance of the MLP classifier. </em>
+</p>
+
+After performing hyper parameter tuning, our MLP neural network classifies anti-vax tweets with an accuracy of 69.23%. Precision and recall are both 65% for anti-vax tweets! 
+
+
+<p align="center">
+  <img src="supervised/metrics4.png" width="720">
+  <br>
+  <em> Figure 12: Various metrics applied to analyze the performance of the MLP classifier after hyper parameter tuning. </em>
+</p>
+
+BERT significantly outperforms all other ML models and classifies anti-vax tweets with an **accuracy of 76.43%.** We achieve a **70% precision** and **89% recall** scores for the anti-vax tweets, the highest thus far, without making much of a compromise on the precision and recall values for non-anti-vax tweets.  
+
+Hence, BERT performs the best for our dataset by correctly classifying anti-vax tweets with an accuracy of 76.43%, signifianctly higher than those of the other classical ML models such as SVM and LR. 
 
 #### Citations
 [1] Tran, D.-M. T., Lekhak, N., Gutierrez, K., & Moonie, S. (2021). Risk Factors Associated with Cardiovascular Disease Among Adult Nevadans. *PLOS ONE, 16*(2). https://doi.org/10.1371/journal.pone.0247105 
